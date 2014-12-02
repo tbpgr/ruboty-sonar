@@ -2,6 +2,9 @@
 
 RubotySonar search ruboty plugin gems.
 
+[![Build Status](https://travis-ci.org/tbpgr/ruboty-sonar.png?branch=master)](https://travis-ci.org/tbpgr/ruboty-sonar)
+[![Coverage Status](https://coveralls.io/repos/tbpgr/ruboty-sonar/badge.png)](https://coveralls.io/r/tbpgr/ruboty-sonar)
+
 ## Installation
 
 Add this line to your application's Gemfile:
