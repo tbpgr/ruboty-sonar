@@ -1,0 +1,93 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
+require 'ruboty-sonar'
+require 'ruboty-sonar/version'
+require 'thor'
+
+module RubotySonar
+  # = RubotySonar CLI
+  class CLI < Thor
+    class_option :help, type: :boolean, aliases: '-h', desc: 'help message.'
+    class_option :version, type: :boolean, desc: 'version'
+    class_option :debug, type: :boolean, aliases: '-d', desc: 'debug mode'
+
+    desc 'info [GEM_NAME]', 'get gem info'
+    def info(gem_name)
+      setting_debug_mode
+      gem_info = RubotySonar.info(gem_name)
+      msg = <<-EOS
+name:#{gem_info[:name]}
+desc:#{gem_info[:desc]}
+downloads:#{gem_info[:downloads]}
+rubygems_uri:#{gem_info[:rubygems_uri]}
+homepage_uri:#{gem_info[:homepage_uri]}
+      EOS
+      puts msg
+      rescue => e
+        output_error_if_debug_mode(e)
+        exit(false)
+    end
+
+    desc 'random', 'get gem info at random'
+    def random
+      setting_debug_mode
+      gem_info = RubotySonar.random
+      msg = <<-EOS
+name:#{gem_info[:name]}
+desc:#{gem_info[:desc]}
+downloads:#{gem_info[:downloads]}
+rubygems_uri:#{gem_info[:rubygems_uri]}
+homepage_uri:#{gem_info[:homepage_uri]}
+      EOS
+      puts msg
+      rescue => e
+        output_error_if_debug_mode(e)
+        exit(false)
+    end
+
+    desc 'ranking [limit]', 'Show gem downloads ranking. default = 5'
+    def ranking(limit = 5)
+      limit = Integer(limit)
+      setting_debug_mode
+      gems_info = RubotySonar.ranking(limit).map.with_index(1) do |gem_info, i|
+        "no:#{i},name:#{gem_info[:name]},downloads:#{gem_info[:downloads]}"
+      end
+      puts gems_info
+      rescue => e
+        output_error_if_debug_mode(e)
+        exit(false)
+    end
+
+    desc 'author_ranking [limit]', "Show gem's authers downloads ranking. default = 5"
+    def author_ranking(limit = 5)
+      limit = Integer(limit)
+      setting_debug_mode
+      gems_info = RubotySonar.author_ranking(limit).map.with_index(1) do |gem_info, i|
+        "no:#{i},author:#{gem_info[:authors]},downloads:#{gem_info[:downloads]}"
+      end
+      puts gems_info
+      rescue => e
+        output_error_if_debug_mode(e)
+        exit(false)
+    end
+
+    desc 'version', 'version'
+    def version
+      p RubotySonar::VERSION
+    end
+
+    private
+
+    def setting_debug_mode
+      $DEBUG = options[:debug]
+    end
+
+    def output_error_if_debug_mode(e)
+      return unless options[:debug]
+      STDERR.puts(e.backtrace)
+    end
+  end
+end
+
+RubotySonar::CLI.start(ARGV)

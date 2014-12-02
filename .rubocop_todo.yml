@@ -1,0 +1,22 @@
+# Offense count: 2
+# Configuration parameters: AllowURI, URISchemes.
+Metrics/LineLength:
+  Max: 86
+
+# Offense count: 2
+# Configuration parameters: CountComments.
+Metrics/MethodLength:
+  Max: 13
+
+# Offense count: 1
+Style/Documentation:
+  Enabled: false
+
+# Offense count: 3
+# Configuration parameters: Exclude.
+Style/FileName:
+  Enabled: false
+
+# Offense count: 2
+Style/MultilineBlockChain:
+  Enabled: false
