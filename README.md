@@ -2,6 +2,7 @@
 
 RubotySonar search ruboty plugin gems.
 
+[![Gem Version](https://badge.fury.io/rb/ruboty-sonar.svg)](http://badge.fury.io/rb/ruboty-sonar)
 [![Build Status](https://travis-ci.org/tbpgr/ruboty-sonar.png?branch=master)](https://travis-ci.org/tbpgr/ruboty-sonar)
 [![Coverage Status](https://coveralls.io/repos/tbpgr/ruboty-sonar/badge.png)](https://coveralls.io/r/tbpgr/ruboty-sonar)
 
