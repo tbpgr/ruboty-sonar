@@ -1,10 +1,37 @@
 # encoding: utf-8
 require 'gems'
+require 'date'
+require 'gems/configuration'
+require 'gems/request'
+require 'json'
+
+# open class for paging
+module Gems
+  class Client
+    include Gems::Request
+    def search_with_page(query, page)
+      response = get('/api/v1/search.json', :query => query, :page => page.to_s)
+      JSON.parse(response)
+    end
+  end
+end
 
 module RubotySonar
   module_function
 
   RUBOTY_SEARCH_CONDITION = 'ruboty-'
+
+  def self.search(query)
+    results = []
+    page = 1
+    loop {
+      ret = Gems.search_with_page(query, page)
+      break if ret.empty?
+      results += ret
+      page += 1
+    }
+    results
+  end
 
   def self.info(gem_name)
     gem_info = Gems.info(gem_name)
@@ -17,8 +44,12 @@ module RubotySonar
     }
   end
 
+  def search(condition)
+
+  end
+
   def self.random
-    gem_info = Gems.search(RUBOTY_SEARCH_CONDITION).sample
+    gem_info = search(RUBOTY_SEARCH_CONDITION).sample
     {
       name: gem_info['name'],
       desc: gem_info['info'],
@@ -29,7 +60,7 @@ module RubotySonar
   end
 
   def self.ranking(limit = 5)
-    Gems.search(RUBOTY_SEARCH_CONDITION)
+    search(RUBOTY_SEARCH_CONDITION)
         .map do |e|
           {
             name: e['name'],
@@ -41,7 +72,7 @@ module RubotySonar
   end
 
   def self.author_ranking(limit = 5)
-    Gems.search(RUBOTY_SEARCH_CONDITION)
+    search(RUBOTY_SEARCH_CONDITION)
         .map { |e|{ authors: e['authors'], downloads: e['downloads'] } }
         .group_by { |e| e[:authors] }
         .map do |key, values|

@@ -125,7 +125,7 @@ describe RubotySonar do
           case_before c
 
           # -- given --
-          allow(Gems).to receive(:search).and_return(gems_mock)
+          allow(RubotySonar).to receive(:search).and_return(gems_mock)
 
           # -- when --
           actual = RubotySonar.random
@@ -208,7 +208,7 @@ describe RubotySonar do
           case_before c
 
           # -- given --
-          allow(Gems).to receive(:search).and_return(gems_mock)
+          allow(RubotySonar).to receive(:search).and_return(gems_mock)
 
           # -- when --
           if c[:limit]
@@ -305,7 +305,7 @@ describe RubotySonar do
           case_before c
 
           # -- given --
-          allow(Gems).to receive(:search).and_return(gems_mock)
+          allow(RubotySonar).to receive(:search).and_return(gems_mock)
 
           # -- when --
           if c[:limit]
