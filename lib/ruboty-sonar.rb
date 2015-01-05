@@ -44,9 +44,6 @@ module RubotySonar
     }
   end
 
-  def search(_condition)
-  end
-
   def self.random
     gem_info = search(RUBOTY_SEARCH_CONDITION).sample
     {
