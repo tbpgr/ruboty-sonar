@@ -10,7 +10,7 @@ module Gems
   class Client
     include Gems::Request
     def search_with_page(query, page)
-      response = get('/api/v1/search.json', :query => query, :page => page.to_s)
+      response = get('/api/v1/search.json', query: query, page: page.to_s)
       JSON.parse(response)
     end
   end
@@ -24,12 +24,12 @@ module RubotySonar
   def self.search(query)
     results = []
     page = 1
-    loop {
+    loop do
       ret = Gems.search_with_page(query, page)
       break if ret.empty?
       results += ret
       page += 1
-    }
+    end
     results
   end
 
@@ -44,8 +44,7 @@ module RubotySonar
     }
   end
 
-  def search(condition)
-
+  def search(_condition)
   end
 
   def self.random
